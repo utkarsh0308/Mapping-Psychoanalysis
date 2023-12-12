@@ -1,0 +1,23 @@
+# Installing and importing all the dependencies
+
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+import requests
+from bs4 import BeautifulSoup
+import re
+
+# Instantiating Model
+
+tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
+
+model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
+
+# Encode and Calculate sentiment
+tokens = tokenizer.encode('High quality pants. Very comfortable and great for sport activities. Good price for nice quality! I recommend to all fans of sports', return_tensors='pt')
+# in the above line pass the sentence or statement to analyse sentiment
+result = model(tokens)
+print(result)
+
+result.logits
+print(int(torch.argmax(result.logits)) + 1)
+
